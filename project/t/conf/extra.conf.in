@@ -1,0 +1,26 @@
+
+PerlModule Apache2::Resource
+PerlSetEnv PERL_RLIMIT_CPU 35:40
+PerlChildInitHandler Apache2::Resource
+
+PerlModule Apache::DBI
+
+PerlSwitches -I@ServerRoot@/../lib -I/www/modules
+
+<Directory />
+	Options FollowSymLinks
+	AllowOverride All
+</Directory>
+
+<Location />
+	SetHandler perl-script
+	PerlHandler Wendy
+	PerlSendHeader On
+	PerlOptions +ParseHeaders
+#	Allow from all
+</Location>
+
+<Location /static/>
+	SetHandler default-handler
+</Location>
+
