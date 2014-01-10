@@ -3,6 +3,18 @@ Vagrant box for testing Wendy projects
 
 Virtual environment to run your tests with Apache::Test
 
+Usage
+-----
+
+Put your project's files into appropriate directories, then run
+
+	vagrant up
+
+To examine logs and other things, use
+
+	vagrant ssh
+	cd /tmp/projectclone
+
 Files and directory tree
 ------------------------
 
@@ -68,21 +80,14 @@ Wendy's var directory.
 
 Wendy's host's root directory.
 
-Usage
------
-
-Put your project's files into appropriate directories, then run
-
-	vagrant up
-
-To examine logs and other things, use
-
-	vagrant ssh
-	cd /tmp/projectclone
-
 Reference
 ---------
 
 [Vagrant](http://vagrantup.com/)
+
 [Apache::Test](http://perl.apache.org/docs/general/testing/testing.html)
+
+[Chef](http://www.getchef.com/chef/)
+
+[Wendy](http://wendy-web.org/)
 
