@@ -25,7 +25,13 @@ CPANM_INSTALL_DEPS="cpanm -q --installdeps --notest ."
 PERL="/usr/bin/perl"
 BUILD_PL="./Build.PL"
 BUILD="./Build"
-BUILD_TEST="${BUILD} test"
+
+TEST_RUNNER="t/TEST"
+
+START_HTTPD="${TEST_RUNNER} -start-httpd"
+STOP_HTTPD="${TEST_RUNNER} -stop-httpd"
+
+RUN_TESTS="${TEST_RUNNER} -run-tests"
 
 WWW='/www'
 WWW_MODULES="${WWW}/modules"
@@ -100,11 +106,27 @@ $PERL $BUILD_PL &&
 
 $BUILD &&
 
-$BUILD_TEST
-
-echo "${DST_ERRORLOG}:"
-$CAT $DST_ERRORLOG
+$START_HTTPD
 
 
-exit 0;
+START_HTTPD_EXITCODE=$?
+RUN_TESTS_EXITCODE=2 # some default value
+
+
+if [ $START_HTTPD_EXITCODE -eq 0 ]; then
+	$RUN_TESTS
+
+	RUN_TESTS_EXITCODE=$?
+
+	$STOP_HTTPD
+fi
+
+if [ $RUN_TESTS_EXITCODE -ne 0 ]; then
+	echo ""
+	echo "${DST_ERRORLOG}:"
+	$CAT $DST_ERRORLOG
+fi
+
+
+exit $RUN_TESTS_EXITCODE
 
